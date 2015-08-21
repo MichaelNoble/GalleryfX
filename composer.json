@@ -1,0 +1,15 @@
+{
+ "name": "michaelnoble/galleryfx",
+  "description": "A WP plugin to integrate javscript/jQuery effects. The jssor slider plugin is built-in.",
+  "type": "wordpress-plugin",
+  "license": "GNU",
+  "authors": [
+      {
+          "name": "Michael Noble",
+          "email": "michaelznoble@gmail.com"
+      }
+  ],
+  "keywords": [
+    "galleryfx","gallery", "slider", "wordpress", "wp", "jssor"
+  ]
+}
