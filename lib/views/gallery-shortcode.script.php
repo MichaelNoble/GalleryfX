@@ -117,9 +117,15 @@ use GFXI\JssorHelper;
     sliders['<?php echo $gallery_id; ?>'] = new $JssorSlider$("slider_container_<?php echo $gallery_id; ?>", options);
     <?php if ( $this->get_option("responsive") > 0 ) : ?>
          function ScaleSlider<?php echo $gallery_id; ?>() {
-            var bodyWidth = $('#slider_container_<?php echo $gallery_id; ?>').parent().width();
-            if (bodyWidth)
-                sliders['<?php echo $gallery_id; ?>'].$ScaleWidth(Math.min(bodyWidth, 1920));
+            var parentEl =  $('#slider_container_<?php echo $gallery_id; ?>').parent();
+            var bodyWidth = parentEl.width();
+            var bodyHeight = parentEl.height();
+
+           // if (bodyWidth)
+            //    sliders['<?php echo $gallery_id; ?>'].$ScaleWidth(Math.min(bodyWidth, 1920));
+           // else
+           if (bodyHeight)
+                sliders['<?php echo $gallery_id; ?>'].$ScaleHeight(Math.max(bodyHeight, 150));
             else
                 window.setTimeout(ScaleSlider<?php echo $gallery_id; ?>, 30);
         }
