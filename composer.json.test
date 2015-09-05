@@ -1,0 +1,25 @@
+{
+ "name": "michaelnoble/galleryfx",
+  "description": "A WP plugin to integrate javscript/jQuery effects. The jssor slider plugin is built-in.",
+  "type": "wordpress-plugin",
+  "license": "GNU",
+  "authors": [
+      {
+          "name": "Michael Noble",
+          "email": "michaelznoble@gmail.com"
+      }
+  ],
+  "keywords": [
+    "gallery", "slider", "wordpress", "wp", "jssor"
+  ],
+  "repositories": [
+     {
+            "type": "git",
+            "url": "https://github.com/TGMPA/TGM-Plugin-Activation.git"
+      }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "tgmpa/tgm-plugin-activation":"~2.5" 
+  }
+}

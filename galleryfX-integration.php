@@ -40,9 +40,9 @@ foreach ( glob( GFXI_PLUGIN_DIR . "lib/controllers/*.php" ) as $file ) {
     include_once $file;
 }
 
-function gallery_fx( $gallery_id, $fxsetting_id = null ) {
-    if ( is_numeric($gallery_id) )
-        return GFXI\GalleryfX\process_shortcode( array( 'fxgallery_id' => $gallery_id, 'fxsetting_id' => $fxsetting_id ) );
+function gallery_fx( $fxsetting, $gallery = null ) {
+    if ( strlen($fxsetting) > 0 ) 
+        return GFXI\GalleryfX\process_shortcode( array( 'fxgallery' => $gallery, 'fxsetting' => $fxsetting ) );
 }
 
 function gfxi_register_required_plugins() {

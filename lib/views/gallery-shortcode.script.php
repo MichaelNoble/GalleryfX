@@ -118,8 +118,12 @@ use GFXI\JssorHelper;
     <?php if ( $this->get_option("responsive") > 0 ) : ?>
          function ScaleSlider<?php echo $gallery_id; ?>() {
             var parentEl =  $('#slider_container_<?php echo $gallery_id; ?>').parent();
-            var bodyWidth = parentEl.width();
-            var bodyHeight = parentEl.height();
+            var bodyWidth = parentEl.innerWidth();
+            var bodyHeight = parentEl.innerHeight();
+            
+            // set caption position
+            $('.jssor_slider_caption').css('margin-left', $('.jssor_slider_outer_container').innerWidth()/2 - $('.jssor_slider_caption').innerWidth()/2 );
+
 
            // if (bodyWidth)
             //    sliders['<?php echo $gallery_id; ?>'].$ScaleWidth(Math.min(bodyWidth, 1920));
