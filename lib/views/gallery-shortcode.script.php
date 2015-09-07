@@ -119,7 +119,7 @@ use GFXI\JssorHelper;
          function ScaleSlider<?php echo $gallery_id; ?>() {
             var parentEl =  $('#slider_container_<?php echo $gallery_id; ?>').parent();
             var bodyWidth = parentEl.innerWidth();
-            var bodyHeight = parentEl.innerHeight();
+            var bodyHeight = parentEl.height();   // innerHeight()
             
             // set caption position
             $('.jssor_slider_caption').css('margin-left', $('.jssor_slider_outer_container').innerWidth()/2 - $('.jssor_slider_caption').innerWidth()/2 );
