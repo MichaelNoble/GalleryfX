@@ -19,6 +19,13 @@ return array(
                 'max' => '1000',
                 'step' => '1',
                 'default' => '300',
+            ),   
+            array(
+                'type' => 'toggle',
+                'name' => 'link_caption',
+                'label' => __('Link Captions', GFXI_TEXTDOMAIN),
+                'default' => '0',
+               // 'description' => __('Checking this will show filtering option group.', GFXI_TEXTDOMAIN),
             ),
             array(
                 'type' => 'select',
@@ -256,11 +263,26 @@ return array(
                 ),
             ),             
             array(
-                'type' => 'toggle',
+                'type' => 'select',
                 'name' => 'responsive',
                 'label' => __('Responsive', GFXI_TEXTDOMAIN),
               //  'description' => __('Suits the need to ask user a yes or no option.', GFXI_TEXTDOMAIN),
-                'default' => '1',
+                'items' => array(
+                    array(
+                        'value' => '0',
+                        'label' => __('No Scaling', GFXI_TEXTDOMAIN),
+                    ),
+                    array(
+                        'value' => '1',
+                        'label' => __('Scale Width', GFXI_TEXTDOMAIN),
+                    ),
+
+                    array(
+                        'value' => '2',
+                        'label' => __('Scale Height', GFXI_TEXTDOMAIN),
+                    ),
+                ),
+                'default' => array('1'),
             ),
             array(
                 'type' => 'select',
