@@ -2,6 +2,7 @@
 .jssor_slider_outer_container {
 	margin: 10px auto;
 	position: relative;
+	text-align: center;
 }
 
 .jssor_slider_slides { 
