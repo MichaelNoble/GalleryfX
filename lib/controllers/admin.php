@@ -22,8 +22,64 @@ add_action('theme_setup', __NAMESPACE__ . '\option_actions');
   
   //initialize ValPress framework dependent metaboxes and shortcode generator 
 init_fxsetting_meta_boxes();
-init_attachment_meta_boxes();
-     
+init_attachment_meta_boxes();  // error meta data is not getting saved
+//  the Valpress Framework is not handeling the attachment_fields filters, it is using the save_post filter 
+add_filter( 'attachment_fields_to_save', __NAMESPACE__ . '\save_attachment_meta', null, 2);
+function save_attachment_meta( $post, $attachment ){
+
+    if( isset($post["_gfxi-att-jssor_"]) ) {
+        update_post_meta( $post['ID'], '_gfxi-att-jssor_', $post["_gfxi-att-jssor_"] );
+    } elseif (isset( $attachment['custom_link_url'] ) || isset( $attachment['custom_link_target'] ) ){
+
+           $jssor_meta = get_post_meta(  $post['ID'], '_gfxi-att-jssor_', true );       
+           
+           $jssor_meta['linkURL'] = $attachment['custom_link_url'] ;
+           $jssor_meta['link_target'] = $attachment['custom_link_target'] ;
+           
+           update_post_meta( $post['ID'], '_gfxi-att-jssor_',$jssor_meta );
+    }
+    return $post;
+}   
+
+// Add the filter for editing the custom url field
+add_filter( 'attachment_fields_to_edit', __NAMESPACE__ . '\attachment_fields_to_edit', null, 2 );
+    
+function attachment_fields_to_edit( $form_fields, $post ) {
+    $help_css = 'display:none;position:absolute;background-color:#ffffe0;text-align:left;border:1px solid #dfdfdf;padding:10px;width:75%;font-weight:normal;border-radius:3px;';
+
+     $jssor_meta = get_post_meta( $post->ID, '_gfxi-att-jssor_', true );
+    // Custom Link URL field
+    $form_fields['custom_link_url'] = array(
+        'label' => __( 'Custom Link URL', GFXI_TEXTDOMAIN ) .
+            ' <a href="#" onclick="jQuery(\'#wpgcl_custom_link_url_help\').show(); return false;" onblur="jQuery(\'#wpgcl_custom_link_url_help\').hide();">[?]</a>' . 
+            '<div id="wpgcl_custom_link_url_help" style="'.$help_css.'">' .
+            __( 'Will replace "Image File" or "Attachment Page" link for this image in galleries. Use [none] to remove the link from this image in galleries.', GFXI_TEXTDOMAIN ) .
+            ' <a href="#" onclick="jQuery(\'#wpgcl_custom_link_url_help\').hide(); return false;">[X]</a>' .
+            '</div>',
+        'input' => 'text',
+        'value' => $jssor_meta['linkURL']
+    );
+    // Custom Link Target field
+    $target_value = $jssor_meta['link_target'];
+    $form_fields['custom_link_target'] = array(
+        'label' => __( 'Custom Link Target', GFXI_TEXTDOMAIN ) .
+            ' <a href="#" onclick="jQuery(\'#wpgcl_custom_link_target_help\').show(); return false;" onblur="jQuery(\'#wpgcl_custom_link_target_help\').hide();">[?]</a>' . 
+            '<div id="wpgcl_custom_link_target_help" style="'.$help_css.'">' .
+            __( 'This setting will be applied to this image in galleries regardless of whether or not a Custom Link URL has been specified.', GFXI_TEXTDOMAIN ) .
+            ' <a href="#" onclick="jQuery(\'#wpgcl_custom_link_target_help\').hide(); return false;">[X]</a>' .
+            '</div>',
+        'input' => 'html',
+        'html'  => '
+            <select name="attachments['.$post->ID.'][custom_link_target]" id="attachments['.$post->ID.'][custom_link_target]">
+                <option value="">'.__( 'Do Not Change', GFXI_TEXTDOMAIN ).'</option>
+                <option value="_self"'.($target_value == '_self' ? ' selected="selected"' : '').'>'.__( 'Same Window', GFXI_TEXTDOMAIN ).'</option>
+                <option value="_blank"'.($target_value == '_blank' ? ' selected="selected"' : '').'>'.__( 'New Window', GFXI_TEXTDOMAIN ).'</option>
+            </select>'
+    );
+    return $form_fields;
+} // End function apply_filter_attachment_fields_to_edit()
+    
+
 function gfxiOption($name){
      static $gfxi_options = null;
 
@@ -55,7 +111,7 @@ function init_attachment_meta_boxes() {
         'id'          => '_gfxi-att-jssor_',
         'types'       => array('attachment'),
         'title'       => __('Slide Effects', GFXI_TEXTDOMAIN),
-        'priority'    => 'high',
+        'priority'    => 'low',
         'context'      => 'side',
         'template'    =>  GFXI_PLUGIN_DIR . 'lib/attachment.template.php'
     );
