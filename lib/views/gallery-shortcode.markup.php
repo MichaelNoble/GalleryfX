@@ -83,8 +83,13 @@ use \rwp_img;
             $title = apply_filters('the_title', $attachment->post_title, $attachment->ID);
             $desc = $attachment->post_excerpt;
 
-            $att_fX = ( ! empty($att_fXs) && isset($att_fXs[$attachment->ID]) ? $att_fXs[$attachment->ID] : array() );   
-            $link_url = ( isset($att_fX['linkURL']) ? $att_fX['linkURL'] : '' ); 
+            $att_fX = ( ! empty($att_fXs) && isset($att_fXs[$attachment->ID]) ? $att_fXs[$attachment->ID] : array() ); 
+             $link_url = ''; 
+            if ( $this->get_option("link_caption") && isset($att_fX['linkURL']) ) :
+                $link_url = $att_fX['linkURL']; 
+            elseif ( $this->get_option("link_caption") ) :
+                $link_url = get_attachment_link( $attachment->ID );
+            endif;
 
             $cap_in = ( isset($att_fX['transits'][0]['cap-in']) ? $result2[$att_fX['transits'][0]['cap-in']] : $result2[$this->get_option('cap-in','default-trans')] );
             $cap_out = ( isset($att_fX['transits'][0]['cap-out']) ? $result2[$att_fX['transits'][0]['cap-out']] : $result2[$this->get_option('cap-out','default-trans')] );
