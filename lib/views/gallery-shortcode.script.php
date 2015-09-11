@@ -125,13 +125,15 @@ use GFXI\JssorHelper;
             $('.jssor_slider_caption').css('margin-left', $('.jssor_slider_outer_container').innerWidth()/2 - $('.jssor_slider_caption').innerWidth()/2 );
 
 
-           // if (bodyWidth)
-            //    sliders['<?php echo $gallery_id; ?>'].$ScaleWidth(Math.min(bodyWidth, 1920));
-           // else
-           if (bodyHeight)
-                sliders['<?php echo $gallery_id; ?>'].$ScaleHeight(Math.max(bodyHeight, 150));
-            else
-                window.setTimeout(ScaleSlider<?php echo $gallery_id; ?>, 30);
+            <?php if ( $this->get_option("responsive") == '1' ) { ?>
+                if (bodyWidth)
+                    sliders['<?php echo $gallery_id; ?>'].$ScaleWidth(Math.min(bodyWidth, 1920));
+           <?php } else { ?>
+               if (bodyHeight)
+                    sliders['<?php echo $gallery_id; ?>'].$ScaleHeight(Math.max(bodyHeight, 150));
+               <?php } ?>
+                else
+                    window.setTimeout(ScaleSlider<?php echo $gallery_id; ?>, 30);
         }
         ScaleSlider<?php echo $gallery_id; ?>();
 
